@@ -1,0 +1,11 @@
+.calendly-inline-widget {
+  width: 100%;
+  min-width: 280px;
+  height: 680px;
+}
+
+@media (max-width: 600px) {
+  .calendly-inline-widget {
+    height: 640px;
+  }
+}
