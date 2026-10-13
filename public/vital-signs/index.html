@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="description" content="A free 3-minute check for senior care owners. Score 8 business systems and find your #1 bottleneck."><meta property="og:title" content="Agency Vital Signs: is your agency healthy, or just busy?"><meta property="og:description" content="Free 3-minute check for home care, personal care home, and adult day owners. Instant results."><meta property="og:type" content="website"><meta property="og:url" content="https://careintakeai.com/vital-signs"><meta property="og:image" content="https://careintakeai.com/og.png"><link rel="icon" href="/favicon.svg"><link rel="canonical" href="https://careintakeai.com/vital-signs"><style>html,body{margin:0}</style></head><body><title>Agency Vital Signs</title>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="description" content="A free 3-minute check for senior care owners. Score 9 business systems and find your #1 bottleneck."><meta property="og:title" content="Agency Vital Signs: is your agency healthy, or just busy?"><meta property="og:description" content="Free 3-minute check for home care, personal care home, and adult day owners. Instant results."><meta property="og:type" content="website"><meta property="og:url" content="https://careintakeai.com/vital-signs"><meta property="og:image" content="https://careintakeai.com/og.png"><link rel="icon" href="/favicon.svg"><link rel="canonical" href="https://careintakeai.com/vital-signs"><style>html,body{margin:0}</style></head><body><title>Agency Vital Signs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
@@ -197,9 +197,10 @@ const SYS = {
   s5:{tag:"Profit",nm:"Profit and Exit",ln:"Higher margin now. Higher sale value later."},
   s6:{tag:"Compliance",nm:"Survey-Ready Compliance",ln:"Ready for the state surveyor any day of the year."},
   s7:{tag:"Census",nm:"Census Engine",ln:"Full beds and a warm waitlist."},
-  s8:{tag:"Attendance",nm:"Enrollment and Attendance",ln:"Families who enroll, show up, and stay."}
+  s8:{tag:"Attendance",nm:"Enrollment and Attendance",ln:"Families who enroll, show up, and stay."},
+  s9:{tag:"AI Safety",nm:"AI Trust Layer",ln:"The AI your team uses, with client data kept safe."}
 };
-const SYS_ORDER = ["s1","s2","s3","s4","s5","s6","s7","s8"];
+const SYS_ORDER = ["s1","s2","s3","s4","s5","s6","s7","s8","s9"];
 
 const FIX = {
   s1:{why:"Your launch is the risk right now. Cash, first clients, and a ready caregiver bench have to line up before your savings run out.",fix:"A launch plan that lines up referral partners, a caregiver bench, and a weekly cash-runway report, so you know exactly how many clients get you to break-even."},
@@ -209,14 +210,15 @@ const FIX = {
   s5:{why:"You may be busy but leaving money on the table through old rates, overtime surprises, and slow payments.",fix:"Margin by client, a yearly rate review, autopay and payment reminders, and a yearly sale-readiness score."},
   s6:{why:"A surprise inspection could hurt. Expired trainings and missing file items are what surveyors tend to find.",fix:"Every license, training hour, and TB test tracked with automatic alerts, plus a survey binder that's always ready."},
   s7:{why:"Empty beds are revenue you never get back. In a 6-bed home, one empty bed is about 17% of capacity.",fix:"Same-day tour booking, a warm waitlist, monthly follow-up with hospital and placement partners, and a weekly census report."},
-  s8:{why:"Attendance gaps quietly drain a center. A family that stops coming rarely calls to say why.",fix:"Enrollment follow-up, same-day missed-day check-ins with families, ride coordination, and steady referral outreach."}
+  s8:{why:"Attendance gaps quietly drain a center. A family that stops coming rarely calls to say why.",fix:"Enrollment follow-up, same-day missed-day check-ins with families, ride coordination, and steady referral outreach."},
+  s9:{why:"Your team is likely using AI tools you never approved. One care note pasted into a free AI app can cost you a client's trust, a referral partner, or a contract.",fix:"A list of every AI tool in use, clear rules on what data goes where, approved business accounts, a policy every staff member signs, and a one-page trust sheet for families and partners."}
 };
 
 const PATHS = {
-  new:{k:"Starting out",t:"I'm launching a home care agency",d:"Applying for a license, or licensed less than a year.",staff:"caregiver",word:"agency",scored:["s1","s2","s3","s6"]},
-  homecare:{k:"Established",t:"I run a home care agency",d:"Licensed and serving clients for a year or more.",staff:"caregiver",word:"agency",scored:["s2","s3","s4","s5","s6"]},
-  residential:{k:"Residential",t:"I run a personal care home or assisted living",d:"Residents live with you, in a home or community.",staff:"staff member",word:"home",scored:["s7","s2","s4","s5","s6"]},
-  adultday:{k:"Day program",t:"I run an adult day center",d:"Participants attend during the day.",staff:"staff member",word:"center",scored:["s8","s2","s4","s5","s6"]}
+  new:{k:"Starting out",t:"I'm launching a home care agency",d:"Applying for a license, or licensed less than a year.",staff:"caregiver",word:"agency",scored:["s1","s2","s3","s6","s9"]},
+  homecare:{k:"Established",t:"I run a home care agency",d:"Licensed and serving clients for a year or more.",staff:"caregiver",word:"agency",scored:["s2","s3","s4","s5","s6","s9"]},
+  residential:{k:"Residential",t:"I run a personal care home or assisted living",d:"Residents live with you, in a home or community.",staff:"staff member",word:"home",scored:["s7","s2","s4","s5","s6","s9"]},
+  adultday:{k:"Day program",t:"I run an adult day center",d:"Participants attend during the day.",staff:"staff member",word:"center",scored:["s8","s2","s4","s5","s6","s9"]}
 };
 
 /* Vital-sign questions. Scores: 10 healthy, 6 okay, 3 weak, 0 critical. */
@@ -243,14 +245,16 @@ const Q = {
   n_missed:()=>({sys:"s3",q:"A family calls while you're at an appointment. What happens?",o:[["Answered, or called back within minutes",10],["Voicemail. I call back the same day.",6],["Voicemail. I call back when I can.",3],["I don't have a business line yet",0]]}),
   n_partners:()=>({sys:"s3",q:"How many discharge planners, social workers, or senior living staff know you by name?",o:[["5 or more",10],["2 to 4",6],["1",3],["None yet",0]]}),
   n_files:()=>({sys:"s6",q:"How set are your policies, hiring files, and training records?",o:[["Done and reviewed by a professional",10],["Done from a template",6],["In progress",3],["Not started",0]]}),
-  n_hours:()=>({sys:"s6",q:"Do you know the state training hours your caregivers need?",o:[["Yes, and it's tracked",10],["Mostly",6],["Not sure",3],["No",0]]})
+  n_hours:()=>({sys:"s6",q:"Do you know the state training hours your caregivers need?",o:[["Yes, and it's tracked",10],["Mostly",6],["Not sure",3],["No",0]]}),
+  s9_tools:()=>({sys:"s9",q:"Do you know which AI tools your team uses for work, like ChatGPT?",o:[["Yes. We have an approved list and a written AI policy.",10],["We have some rules, but nothing written",6],["A few people use it. I'm not sure how.",3],["I have no idea",0]]}),
+  s9_data:()=>({sys:"s9",q:"If someone on your team pasted a client's name and care notes into a free AI app, would you know?",o:[["It can't happen. Our rules and tools block it.",10],["Our rules say no, but we can't check",6],["Probably not",3],["I didn't know that was a risk",0]]})
 };
 
 const WORRY = {
-  new:[["Running out of cash before clients come","s1"],["Finding my first clients","s3"],["Hiring my first caregivers","s2"],["Getting compliance right","s6"]],
-  homecare:[["Caregivers quitting or calling off","s2"],["Not enough new clients","s3"],["Being on call 24/7","s4"],["Thin profit or slow payments","s5"],["Inspections and compliance","s6"]],
-  residential:[["Empty beds","s7"],["Staff turnover","s2"],["Never being off duty","s4"],["Margins and rates","s5"],["State inspections","s6"]],
-  adultday:[["Low or uneven attendance","s8"],["Staff turnover","s2"],["Never being off duty","s4"],["Funding and margins","s5"],["State inspections","s6"]]
+  new:[["Running out of cash before clients come","s1"],["Finding my first clients","s3"],["Hiring my first caregivers","s2"],["Getting compliance right","s6"],["Staff using AI with client information","s9"]],
+  homecare:[["Caregivers quitting or calling off","s2"],["Not enough new clients","s3"],["Being on call 24/7","s4"],["Thin profit or slow payments","s5"],["Inspections and compliance","s6"],["Staff using AI with client information","s9"]],
+  residential:[["Empty beds","s7"],["Staff turnover","s2"],["Never being off duty","s4"],["Margins and rates","s5"],["State inspections","s6"],["Staff using AI with client information","s9"]],
+  adultday:[["Low or uneven attendance","s8"],["Staff turnover","s2"],["Never being off duty","s4"],["Funding and margins","s5"],["State inspections","s6"],["Staff using AI with client information","s9"]]
 };
 
 const SIZE = {
@@ -261,10 +265,10 @@ const SIZE = {
 };
 
 const ORDER = {
-  new:["n_runway","n_first10","n_breakeven","n_bench","n_keep","n_missed","n_partners","n_files","n_hours"],
-  homecare:["s2_calloff","s2_keep","s3_speed","s3_cost","s4_nights","s4_away","s5_margin","s5_rates","s6_ready","s6_expire"],
-  residential:["s7_beds","s7_tour","s2_calloff","s2_keep","s4_nights","s4_away","s5_margin","s5_rates","s6_ready","s6_expire"],
-  adultday:["s8_attend","s8_missed","s2_calloff","s2_keep","s4_nights","s4_away","s5_margin","s5_rates","s6_ready","s6_expire"]
+  new:["n_runway","n_first10","n_breakeven","n_bench","n_keep","n_missed","n_partners","n_files","n_hours","s9_tools","s9_data"],
+  homecare:["s2_calloff","s2_keep","s3_speed","s3_cost","s4_nights","s4_away","s5_margin","s5_rates","s6_ready","s6_expire","s9_tools","s9_data"],
+  residential:["s7_beds","s7_tour","s2_calloff","s2_keep","s4_nights","s4_away","s5_margin","s5_rates","s6_ready","s6_expire","s9_tools","s9_data"],
+  adultday:["s8_attend","s8_missed","s2_calloff","s2_keep","s4_nights","s4_away","s5_margin","s5_rates","s6_ready","s6_expire","s9_tools","s9_data"]
 };
 
 function buildQuestions(path){
@@ -327,14 +331,14 @@ function renderIntro(){
       <h1>Is your agency <em>healthy</em>, or just busy?</h1>
       ${ecg}
       <p class="lede">Busy hides problems. In 3 minutes, score the systems your senior care business runs on and find the one bottleneck quietly costing you caregivers, clients, and nights off.</p>
-      <div class="assure"><span>Free</span><span>About 15 one-tap questions</span><span>Instant results</span><span>No client or health details asked</span></div>
+      <div class="assure"><span>Free</span><span>About 17 one-tap questions</span><span>Instant results</span><span>No client or health details asked</span></div>
     </section>
     <section class="section" aria-labelledby="pickh">
       <h2 id="pickh">Which best describes you?</h2>
       <div class="paths">${paths}</div>
     </section>
     <section class="section" aria-labelledby="sysh">
-      <h2 id="sysh">The 8 vital signs</h2>
+      <h2 id="sysh">The 9 vital signs</h2>
       <p class="muted">Every senior care business runs on some mix of these. You're scored on the ones that fit your stage and business type.</p>
       <div class="systems">${sys}</div>
     </section>
