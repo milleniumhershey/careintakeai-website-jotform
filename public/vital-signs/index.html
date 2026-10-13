@@ -1,0 +1,502 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="description" content="A free 3-minute check for senior care owners. Score 8 business systems and find your #1 bottleneck."><meta property="og:title" content="Agency Vital Signs: is your agency healthy, or just busy?"><meta property="og:description" content="Free 3-minute check for home care, personal care home, and adult day owners. Instant results."><meta property="og:type" content="website"><meta property="og:url" content="https://careintakeai.com/vital-signs"><meta property="og:image" content="https://careintakeai.com/og.png"><link rel="icon" href="/favicon.svg"><link rel="canonical" href="https://careintakeai.com/vital-signs"><style>html,body{margin:0}</style></head><body><title>Agency Vital Signs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: one calm column, like a patient chart. Landing -> one question per screen -> results "monitor". Single dark theme by choice (CareIntakeAI brand). */
+:root{
+  --bg:#0A0C12; --surface:#10141D; --surface-2:#151B27; --line:#222A3A; --line-2:#2D3749;
+  --fg:#ECEFF4; --muted:#97A1B3; --faint:#647089;
+  --accent:#1DB87A; --accent-ink:#06150E; --accent-soft:rgba(29,184,122,.12);
+  --watch:#E9A93C; --watch-soft:rgba(233,169,60,.12);
+  --crit:#EB5A4E; --crit-soft:rgba(235,90,78,.12);
+  --display:Georgia,"Times New Roman",serif;
+  --body:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --r:10px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg)}
+body{color:var(--fg);font:16px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding-inline:20px;padding-block:28px 64px}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0}
+p{margin:0}
+.eyebrow{font:600 12px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.muted{color:var(--muted)}
+.brandbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:36px}
+.brand{font:600 14px var(--body);letter-spacing:.02em;color:var(--fg);text-decoration:none}
+.brand b{color:var(--accent);font-weight:600}
+.preview-flag{font:500 11px var(--mono);color:var(--watch);border:1px solid rgba(233,169,60,.4);padding:4px 8px;border-radius:999px}
+
+/* ---------- Landing ---------- */
+.hero{display:grid;gap:18px}
+.hero h1{font-size:clamp(34px,7vw,54px);line-height:1.08;letter-spacing:-.01em}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero .lede{font-size:18px;color:var(--muted);max-width:60ch}
+.ecg{width:100%;height:56px;display:block;margin:6px 0 2px}
+.ecg .base{fill:none;stroke:var(--line-2);stroke-width:2}
+.ecg .beat{fill:none;stroke:var(--accent);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:90 900;stroke-dashoffset:0;animation:sweep 3.2s linear infinite}
+@keyframes sweep{from{stroke-dashoffset:990}to{stroke-dashoffset:0}}
+.assure{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13.5px;color:var(--muted)}
+.assure span::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:2px}
+
+.section{margin-top:44px;display:grid;gap:16px}
+.section h2{font-size:26px;line-height:1.2}
+.paths{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.path{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:6px;padding:18px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);transition:border-color .15s,background .15s,transform .15s}
+.path:hover{border-color:var(--accent);background:var(--surface-2)}
+.path:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.path.pre{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+.path .k{font:600 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.path .t{font:600 17px/1.3 var(--body)}
+.path .d{font-size:14px;color:var(--muted);line-height:1.45}
+.path{grid-template-rows:auto auto 1fr auto}
+.path .go{font:600 13px var(--body);color:var(--accent);margin-top:4px;align-self:end}
+@media (hover:none){.kbd{display:none}}
+
+.systems{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface)}
+.sys{display:grid;grid-template-columns:auto 1fr;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);min-width:0}
+.sys:nth-child(odd){border-right:1px solid var(--line)}
+.sys:nth-last-child(-n+2){border-bottom:0}
+.sys .n{font:600 12px/1.9 var(--mono);color:var(--accent)}
+.sys .nm{font:600 15px/1.35 var(--body)}
+.sys .ln{font-size:13.5px;color:var(--muted);line-height:1.45}
+.steps4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.steps4 .st{display:grid;gap:6px;align-content:start;padding:16px;border-top:2px solid var(--accent);background:var(--surface);border-radius:0 0 var(--r) var(--r)}
+.steps4 .n{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.steps4 p{font-size:14px;color:var(--muted);line-height:1.45}
+@media (max-width:760px){.steps4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* ---------- Question ---------- */
+.qtop{display:grid;gap:10px;margin-bottom:28px}
+.progress{height:4px;background:var(--line);border-radius:999px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s ease}
+.qmeta{display:flex;justify-content:space-between;align-items:center;font:500 12.5px var(--mono);color:var(--faint);letter-spacing:.04em}
+.q h2{font-size:clamp(25px,5vw,32px);line-height:1.22;margin:10px 0 8px}
+.q .hint{color:var(--muted);font-size:15px;margin-bottom:22px}
+.opts{display:grid;gap:10px}
+.opt{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:28px 1fr;align-items:center;gap:12px;padding:15px 16px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);font-size:16px;line-height:1.4;transition:border-color .12s,background .12s}
+.opt:hover{border-color:var(--line-2);background:var(--surface-2)}
+.opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.opt .key{width:26px;height:26px;border-radius:6px;border:1px solid var(--line-2);display:grid;place-items:center;font:600 12px var(--mono);color:var(--muted)}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt.sel .key{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.qnav{display:flex;justify-content:space-between;align-items:center;margin-top:22px;gap:12px}
+.link{all:unset;cursor:pointer;color:var(--muted);font-size:14px;padding:6px 2px}
+.link:hover{color:var(--fg)}
+.link:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+/* ---------- Contact ---------- */
+.form{display:grid;gap:14px;margin-top:20px}
+.row2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+label.f{display:grid;gap:6px;font:600 13.5px var(--body);color:var(--fg)}
+label.f .opt-tag{font-weight:400;color:var(--faint)}
+input[type=text],input[type=email],input[type=tel],select{width:100%;min-width:0;padding:13px 14px;border-radius:8px;border:1px solid var(--line-2);background:var(--surface);color:var(--fg);font:16px var(--body)}
+input::placeholder{color:var(--faint)}
+input:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.check{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;font-size:14px;color:var(--muted);line-height:1.5;cursor:pointer}
+.check input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--accent)}
+.hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+.err{min-height:20px;color:var(--crit);font-size:14px}
+.btn{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;justify-content:center;align-items:center;gap:10px;padding:15px 22px;border-radius:var(--r);background:var(--accent);color:var(--accent-ink);font:700 16px var(--body);text-align:center}
+.btn:hover{filter:brightness(1.07)}
+.btn:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
+.btn[disabled]{opacity:.6;cursor:wait}
+.btn.wide{width:100%}
+.fine{font-size:12.5px;color:var(--faint);line-height:1.5}
+
+/* ---------- Results ---------- */
+.res-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:end;padding-bottom:22px;border-bottom:1px solid var(--line)}
+.res-head h1{font-size:clamp(28px,6vw,40px);line-height:1.12}
+.overall{text-align:right}
+.overall .num{font:600 56px/1 var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.overall .of{font:500 14px var(--mono);color:var(--faint)}
+.status{display:inline-flex;align-items:center;gap:7px;padding:4px 10px;border-radius:999px;font:600 12px var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.status::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.st-ok{color:var(--accent);background:var(--accent-soft)}
+.st-watch{color:var(--watch);background:var(--watch-soft)}
+.st-crit{color:var(--crit);background:var(--crit-soft)}
+
+.monitor{margin-top:26px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);overflow:hidden}
+.mon-head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);font:600 11.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.vital{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1.6fr) 158px;gap:16px;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line)}
+.vital:last-child{border-bottom:0}
+.vital .lbl{display:grid;gap:2px;min-width:0}
+.vital .tag{font:600 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.vital .nm{font:600 15px/1.3 var(--body)}
+.bar{display:grid;grid-template-columns:repeat(10,1fr);gap:3px}
+.bar i{height:12px;border-radius:2px;background:var(--line)}
+.vital.ok .bar i.on{background:var(--accent)}
+.vital.watch .bar i.on{background:var(--watch)}
+.vital.crit .bar i.on{background:var(--crit)}
+.vital .sc{display:grid;justify-items:end;gap:4px;font:600 15px var(--mono);font-variant-numeric:tabular-nums}
+.vital.off{opacity:.45}
+.vital.off .sc{font:500 12px var(--body);color:var(--faint)}
+.vital.top{background:linear-gradient(90deg,var(--crit-soft),transparent 60%)}
+
+.focus{margin-top:26px;display:grid;gap:14px;padding:22px;border:1px solid var(--line-2);border-radius:var(--r);background:var(--surface-2)}
+.focus h2{font-size:25px;line-height:1.25}
+.focus .fixlbl{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-top:4px}
+.focus p{color:var(--muted)}
+.focus p.fg{color:var(--fg)}
+.cta{margin-top:26px;display:grid;gap:12px;padding:24px;border-radius:var(--r);border:1px solid var(--accent);background:var(--accent-soft)}
+.cta h2{font-size:24px;line-height:1.25}
+.cta p{color:var(--muted)}
+.cta .btn{justify-self:start}
+.cta .url{font:500 13px var(--mono);color:var(--muted);word-break:break-all}
+.sendnote{font-size:13.5px;color:var(--muted)}
+footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);display:grid;gap:6px;font-size:12.5px;color:var(--faint)}
+footer a{color:var(--muted)}
+
+.screen{animation:in .28s ease both}
+@keyframes in{from{opacity:.001;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.screen{animation:none}.ecg .beat{animation:none;stroke-dasharray:none;opacity:.9}.progress i{transition:none}}
+@media (max-width:620px){
+  .paths,.systems,.row2{grid-template-columns:1fr}
+  .sys:nth-child(odd){border-right:0}
+  .sys:nth-last-child(2){border-bottom:1px solid var(--line)}
+  .res-head{grid-template-columns:1fr}
+  .overall{text-align:left}
+  .vital{grid-template-columns:minmax(0,1fr) auto}
+  .vital .bar{grid-column:1 / -1;grid-row:2}
+}
+</style>
+
+<div class="wrap">
+  <div class="brandbar">
+    <a class="brand" href="/">CareIntake<b>AI</b></a>
+    <span class="preview-flag" id="previewFlag" hidden>PREVIEW · answers are not saved</span>
+  </div>
+  <main id="app" aria-live="polite"></main>
+  <footer>
+    <span>A general check of how your business runs. Not legal, financial, or compliance advice.</span>
+    <span>Never enter client names or health details. <a id="privacyLink" href="#" target="_blank" rel="noopener">Privacy policy</a></span>
+  </footer>
+</div>
+
+<script>
+/* ===================== CONFIG: edit before going live ===================== */
+const CONFIG = {
+  webhookUrl: "https://YOUR-N8N-HOST/webhook/vital-signs-5f632a9f5a49",
+  bookingUrl: "https://calendly.com/guilletgreg",
+  privacyUrl: "/privacy",
+  minFillMs: 20000
+};
+/* ========================================================================= */
+
+const PREVIEW = /YOUR-/.test(CONFIG.webhookUrl) || /claude\.(ai|site)|claudeusercontent|anthropic/.test(location.hostname);
+
+const SYS = {
+  s1:{tag:"Launch",nm:"Launch to First 10 Clients",ln:"License to first clients, with cash under control."},
+  s2:{tag:"Staffing",nm:"Staffing Stability",ln:"Fewer quits. Every shift filled."},
+  s3:{tag:"Growth",nm:"Growth Engine",ln:"Predictable new clients at a known cost."},
+  s4:{tag:"Freedom",nm:"Owner Freedom",ln:"Nights and weekends off. The business still answers."},
+  s5:{tag:"Profit",nm:"Profit and Exit",ln:"Higher margin now. Higher sale value later."},
+  s6:{tag:"Compliance",nm:"Survey-Ready Compliance",ln:"Ready for the state surveyor any day of the year."},
+  s7:{tag:"Census",nm:"Census Engine",ln:"Full beds and a warm waitlist."},
+  s8:{tag:"Attendance",nm:"Enrollment and Attendance",ln:"Families who enroll, show up, and stay."}
+};
+const SYS_ORDER = ["s1","s2","s3","s4","s5","s6","s7","s8"];
+
+const FIX = {
+  s1:{why:"Your launch is the risk right now. Cash, first clients, and a ready caregiver bench have to line up before your savings run out.",fix:"A launch plan that lines up referral partners, a caregiver bench, and a weekly cash-runway report, so you know exactly how many clients get you to break-even."},
+  s2:{why:"Turnover is likely your most expensive leak. Industry caregiver turnover runs about 75% a year, and industry estimates put each replacement near $2,600.",fix:"Call-offs filled by text in minutes, check-ins through every new hire's first 100 days, and a weekly list of who might quit next."},
+  s3:{why:"Families are reaching out, and some aren't hearing back fast enough. The first provider to respond often wins the client.",fix:"Every inquiry answered within 60 seconds, followed up for 90 days, and tracked to signed or lost, with your real cost per new client every Monday."},
+  s4:{why:"The business runs through your phone. That caps your growth, lowers what a buyer will pay, and wears you down.",fix:"One after-hours line that answers families, fills call-offs, and only wakes you for true emergencies, plus a 7 a.m. summary of the night."},
+  s5:{why:"You may be busy but leaving money on the table through old rates, overtime surprises, and slow payments.",fix:"Margin by client, a yearly rate review, autopay and payment reminders, and a yearly sale-readiness score."},
+  s6:{why:"A surprise inspection could hurt. Expired trainings and missing file items are what surveyors tend to find.",fix:"Every license, training hour, and TB test tracked with automatic alerts, plus a survey binder that's always ready."},
+  s7:{why:"Empty beds are revenue you never get back. In a 6-bed home, one empty bed is about 17% of capacity.",fix:"Same-day tour booking, a warm waitlist, monthly follow-up with hospital and placement partners, and a weekly census report."},
+  s8:{why:"Attendance gaps quietly drain a center. A family that stops coming rarely calls to say why.",fix:"Enrollment follow-up, same-day missed-day check-ins with families, ride coordination, and steady referral outreach."}
+};
+
+const PATHS = {
+  new:{k:"Starting out",t:"I'm launching a home care agency",d:"Applying for a license, or licensed less than a year.",staff:"caregiver",word:"agency",scored:["s1","s2","s3","s6"]},
+  homecare:{k:"Established",t:"I run a home care agency",d:"Licensed and serving clients for a year or more.",staff:"caregiver",word:"agency",scored:["s2","s3","s4","s5","s6"]},
+  residential:{k:"Residential",t:"I run a personal care home or assisted living",d:"Residents live with you, in a home or community.",staff:"staff member",word:"home",scored:["s7","s2","s4","s5","s6"]},
+  adultday:{k:"Day program",t:"I run an adult day center",d:"Participants attend during the day.",staff:"staff member",word:"center",scored:["s8","s2","s4","s5","s6"]}
+};
+
+/* Vital-sign questions. Scores: 10 healthy, 6 okay, 3 weak, 0 critical. */
+const Q = {
+  s2_calloff: p=>({sys:"s2",q:`A ${p.staff} calls off an hour before a shift. Who covers it?`,o:[["A backup list fills it fast, without me",10],["Our scheduler scrambles, but it usually gets covered",6],["I end up calling around myself",3],["Sometimes nobody covers it",0]]}),
+  s2_keep: p=>({sys:"s2",q:`Of the last 5 ${p.staff}s you hired, how many are still with you?`,o:[["4 or 5",10],["3",6],["2",3],["0 or 1",0]]}),
+  s3_speed:()=>({sys:"s3",q:"A family fills out your website form at 7 p.m. on a Friday. When do they hear back?",o:[["Within 5 minutes, any day",10],["Within an hour",6],["Next business day",3],["Honestly, I'm not sure",0]]}),
+  s3_cost:()=>({sys:"s3",q:"Do you know what it costs you to win one new client?",o:[["Yes, by source, and I check it monthly",10],["Roughly",6],["No, but I know where most come from",3],["No idea",0]]}),
+  s4_nights:()=>({sys:"s4",q:"How often does your phone pull you back in on nights or weekends?",o:[["Rarely. There's a system for it.",10],["About once a week",6],["Most nights",3],["I'm never really off",0]]}),
+  s4_away: p=>({sys:"s4",q:`If you took 2 weeks off, what would happen to your ${p.word}?`,o:[["It would run fine",10],["Mostly fine, with a few fires",6],["I'd be on the phone every day",3],["I can't take 2 weeks off",0]]}),
+  s5_margin: p=>({sys:"s5",q:p.word==="home"?"Do you know your profit on each bed after staff pay, overtime, and supplies?":p.word==="center"?"Do you know your profit per participant day after staff pay and transportation?":"Do you know your profit on each client after caregiver pay, overtime, and mileage?",o:[["Yes, every month",10],["Roughly, for the big ones",6],["Only the total at year end",3],["No",0]]}),
+  s5_rates:()=>({sys:"s5",q:"When did you last raise your rates?",o:[["Within the past 12 months",10],["1 to 2 years ago",6],["More than 2 years ago",3],["I'm afraid to raise them",0]]}),
+  s6_ready:()=>({sys:"s6",q:"If a state surveyor walked in tomorrow, how ready are your staff files and training records?",o:[["Ready today, all tracked",10],["Mostly. We'd need a day to pull it together.",6],["We'd scramble",3],["I'm not sure what they'd find",0]]}),
+  s6_expire:()=>({sys:"s6",q:"How do you know when a license, TB test, or training is about to expire?",o:[["Automatic alerts",10],["A spreadsheet we check",6],["Someone remembers",3],["We find out when it's already late",0]]}),
+  s7_beds:()=>({sys:"s7",q:"How many of your beds are full right now?",o:[["All of them, with a waitlist",10],["All but one",6],["Two or more are empty",3],["More than a quarter are empty",0]]}),
+  s7_tour:()=>({sys:"s7",q:"A family calls about a bed. How fast do they get a tour booked?",o:[["Same day",10],["Within 2 days",6],["Within a week",3],["We don't track it",0]]}),
+  s8_attend:()=>({sys:"s8",q:"How full is your daily attendance compared to your capacity?",o:[["90% or more",10],["70% to 89%",6],["50% to 69%",3],["Under half",0]]}),
+  s8_missed:()=>({sys:"s8",q:"A participant misses two days in a row. What happens?",o:[["We reach the family the same day",10],["We call when we notice",6],["We wait to hear from them",3],["We often lose them without knowing why",0]]}),
+  n_runway:()=>({sys:"s1",q:"How many months could you cover payroll and bills with no client revenue?",o:[["6 months or more",10],["3 to 5 months",6],["1 to 2 months",3],["Less than a month",0]]}),
+  n_first10:()=>({sys:"s1",q:"Where will your first 10 clients come from?",o:[["I have a written plan and referral partners lined up",10],["A few people promised referrals",6],["Online ads, I think",3],["I don't know yet",0]]}),
+  n_breakeven:()=>({sys:"s1",q:"Do you know how many clients and weekly hours you need to break even?",o:[["Yes, and I track it weekly",10],["Yes, roughly",6],["Not really",3],["No",0]]}),
+  n_bench:()=>({sys:"s2",q:"If a family said yes tomorrow, who would you send?",o:[["3 or more vetted caregivers ready to start",10],["1 or 2 ready",6],["I'd do the shift myself",3],["No one yet",0]]}),
+  n_keep:()=>({sys:"s2",q:"How will you keep new caregivers past their first 90 days?",o:[["A written plan with scheduled check-ins",10],["I'll check in when I can",6],["Good pay is my plan",3],["I haven't thought about it yet",0]]}),
+  n_missed:()=>({sys:"s3",q:"A family calls while you're at an appointment. What happens?",o:[["Answered, or called back within minutes",10],["Voicemail. I call back the same day.",6],["Voicemail. I call back when I can.",3],["I don't have a business line yet",0]]}),
+  n_partners:()=>({sys:"s3",q:"How many discharge planners, social workers, or senior living staff know you by name?",o:[["5 or more",10],["2 to 4",6],["1",3],["None yet",0]]}),
+  n_files:()=>({sys:"s6",q:"How set are your policies, hiring files, and training records?",o:[["Done and reviewed by a professional",10],["Done from a template",6],["In progress",3],["Not started",0]]}),
+  n_hours:()=>({sys:"s6",q:"Do you know the state training hours your caregivers need?",o:[["Yes, and it's tracked",10],["Mostly",6],["Not sure",3],["No",0]]})
+};
+
+const WORRY = {
+  new:[["Running out of cash before clients come","s1"],["Finding my first clients","s3"],["Hiring my first caregivers","s2"],["Getting compliance right","s6"]],
+  homecare:[["Caregivers quitting or calling off","s2"],["Not enough new clients","s3"],["Being on call 24/7","s4"],["Thin profit or slow payments","s5"],["Inspections and compliance","s6"]],
+  residential:[["Empty beds","s7"],["Staff turnover","s2"],["Never being off duty","s4"],["Margins and rates","s5"],["State inspections","s6"]],
+  adultday:[["Low or uneven attendance","s8"],["Staff turnover","s2"],["Never being off duty","s4"],["Funding and margins","s5"],["State inspections","s6"]]
+};
+
+const SIZE = {
+  new:{q:"Where are you right now?",o:[["Licensed and serving my first clients",15],["Licensed, no clients yet",15],["License application submitted",10],["Still planning",4]]},
+  homecare:{q:"How many clients do you serve right now?",o:[["1 to 10",5],["11 to 30",10],["31 to 75",15],["More than 75",15]]},
+  residential:{q:"How many beds do you have?",o:[["1 to 6",8],["7 to 15",12],["16 to 50",15],["More than 50",15]]},
+  adultday:{q:"What is your daily capacity?",o:[["Under 20",6],["20 to 40",10],["41 to 80",15],["More than 80",15]]}
+};
+
+const ORDER = {
+  new:["n_runway","n_first10","n_breakeven","n_bench","n_keep","n_missed","n_partners","n_files","n_hours"],
+  homecare:["s2_calloff","s2_keep","s3_speed","s3_cost","s4_nights","s4_away","s5_margin","s5_rates","s6_ready","s6_expire"],
+  residential:["s7_beds","s7_tour","s2_calloff","s2_keep","s4_nights","s4_away","s5_margin","s5_rates","s6_ready","s6_expire"],
+  adultday:["s8_attend","s8_missed","s2_calloff","s2_keep","s4_nights","s4_away","s5_margin","s5_rates","s6_ready","s6_expire"]
+};
+
+function buildQuestions(path){
+  const p = PATHS[path];
+  const list = ORDER[path].map(id => Object.assign({id}, Q[id](p)));
+  list.push({id:"m_worry",kind:"worry",q:"What keeps you up at night most?",hint:"Pick the one that costs you the most sleep.",o:WORRY[path].map(([l,s])=>[l,0,s])});
+  list.push({id:"m_when",kind:"m",q:"How soon do you want this fixed?",o:[["In the next 30 days",30],["This quarter",20],["Sometime this year",8],["Just exploring",0]]});
+  list.push({id:"m_invest",kind:"m",q:"If a fix paid for itself within a few months, would you invest in it this quarter?",o:[["Yes",25],["Maybe, if the numbers make sense",15],["Not right now",0]]});
+  list.push({id:"m_decide",kind:"m",q:"Who makes this decision?",o:[["I do",15],["I decide with a partner",10],["Someone else",0]]});
+  list.push({id:"m_size",kind:"m",q:SIZE[path].q,o:SIZE[path].o});
+  list.push({id:"m_pay",kind:"m",q:path==="new"?"How will most of your clients pay?":"How do most of your clients pay?",o:[["Mostly private pay or long-term care insurance",15],["A mix of private pay and Medicaid or VA",8],["Mostly Medicaid or VA",3],["Not sure yet",6]]});
+  return list;
+}
+
+/* Pure scoring: answers = {questionId: optionIndex} */
+function scoreAll(path, answers){
+  const qs = buildQuestions(path);
+  const per = {};
+  qs.forEach(q => { if(q.sys && answers[q.id] != null){ (per[q.sys] = per[q.sys] || []).push(q.o[answers[q.id]][1]); } });
+  const vitals = {};
+  PATHS[path].scored.forEach(s => { const a = per[s] || []; vitals[s] = a.length ? Math.round(a.reduce((x,y)=>x+y,0)/a.length*10)/10 : null; });
+  const vals = Object.values(vitals).filter(v => v != null);
+  const overall = vals.length ? Math.round(vals.reduce((x,y)=>x+y,0)/vals.length*10) : 0;
+  let motivation = 0;
+  qs.forEach(q => { if(q.kind==="m" && answers[q.id] != null) motivation += q.o[answers[q.id]][1]; });
+  const wq = qs.find(q => q.kind==="worry");
+  const worrySys = answers.m_worry != null ? wq.o[answers.m_worry][2] : null;
+  const min = Math.min(...vals);
+  const close = Object.keys(vitals).filter(s => vitals[s] != null && vitals[s] <= min + 1);
+  const bottleneck = (worrySys && close.includes(worrySys)) ? worrySys : Object.keys(vitals).find(s => vitals[s] === min);
+  const tier = motivation >= 70 ? "HOT" : motivation >= 45 ? "WARM" : "COOL";
+  return {vitals, overall, motivation, tier, bottleneck, worrySys};
+}
+function vitalClass(v){ return v >= 7.5 ? "ok" : v >= 4 ? "watch" : "crit"; }
+function overallStatus(o){ return o >= 80 ? ["Strong vitals","st-ok"] : o >= 60 ? ["Stable, with warning signs","st-watch"] : o >= 40 ? ["Needs attention","st-watch"] : ["Critical","st-crit"]; }
+
+/* ---------------- UI ---------------- */
+const app = document.getElementById("app");
+const state = { path:null, qs:[], i:0, answers:{}, started:0 };
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const params = new URLSearchParams(location.search);
+const hashPath = (location.hash || "").slice(1);
+const prePath = PATHS[params.get("path")] ? params.get("path") : (PATHS[hashPath] ? hashPath : null);
+const SRC = (params.get("src") || params.get("utm_source") || "").slice(0,40);
+document.getElementById("privacyLink").href = CONFIG.privacyUrl;
+if (PREVIEW) document.getElementById("previewFlag").hidden = false;
+
+function show(html){ app.innerHTML = `<div class="screen">${html}</div>`; window.scrollTo({top:0}); }
+
+function renderIntro(){
+  const ecg = `<svg class="ecg" viewBox="0 0 720 56" preserveAspectRatio="none" aria-hidden="true"><path class="base" d="M0 30 H250 L262 30 L272 12 L284 48 L296 4 L308 40 L318 30 H520 L530 30 L538 20 L548 38 L556 30 H720"/><path class="beat" d="M0 30 H250 L262 30 L272 12 L284 48 L296 4 L308 40 L318 30 H520 L530 30 L538 20 L548 38 L556 30 H720"/></svg>`;
+  const paths = Object.entries(PATHS).map(([k,p]) => `
+    <button class="path${prePath===k?" pre":""}" data-path="${k}" type="button">
+      <span class="k">${p.k}</span><span class="t">${p.t}</span><span class="d">${p.d}</span><span class="go">Start my check &rarr;</span>
+    </button>`).join("");
+  const sys = SYS_ORDER.map((s,i) => `<div class="sys"><span class="n">0${i+1}</span><div><div class="nm">${SYS[s].nm}</div><div class="ln">${SYS[s].ln}</div></div></div>`).join("");
+  show(`
+    <section class="hero">
+      <span class="eyebrow">Agency Vital Signs &middot; 3-minute check</span>
+      <h1>Is your agency <em>healthy</em>, or just busy?</h1>
+      ${ecg}
+      <p class="lede">Busy hides problems. In 3 minutes, score the systems your senior care business runs on and find the one bottleneck quietly costing you caregivers, clients, and nights off.</p>
+      <div class="assure"><span>Free</span><span>About 15 one-tap questions</span><span>Instant results</span><span>No client or health details asked</span></div>
+    </section>
+    <section class="section" aria-labelledby="pickh">
+      <h2 id="pickh">Which best describes you?</h2>
+      <div class="paths">${paths}</div>
+    </section>
+    <section class="section" aria-labelledby="sysh">
+      <h2 id="sysh">The 8 vital signs</h2>
+      <p class="muted">Every senior care business runs on some mix of these. You're scored on the ones that fit your stage and business type.</p>
+      <div class="systems">${sys}</div>
+    </section>
+    <section class="section" aria-labelledby="delh">
+      <h2 id="delh">What CareIntakeAI delivers</h2>
+      <p class="muted">Done-for-you systems for senior care operators. We don't hand you software to figure out. We install it, run it, and prove it works.</p>
+      <div class="steps4">
+        <div class="st"><span class="n">Diagnose</span><p>A paid assessment finds the bottleneck costing you the most.</p></div>
+        <div class="st"><span class="n">Install</span><p>We build the system in 90 days and train your team.</p></div>
+        <div class="st"><span class="n">Operate</span><p>We run and tune it every month, so it keeps working.</p></div>
+        <div class="st"><span class="n">Review</span><p>Every quarter, you see the scorecard against where you started.</p></div>
+      </div>
+    </section>`);
+  app.querySelectorAll(".path").forEach(b => b.addEventListener("click", () => start(b.dataset.path)));
+}
+
+function start(path){
+  state.path = path; state.qs = buildQuestions(path); state.i = 0; state.answers = {}; state.started = Date.now();
+  renderQ();
+}
+
+function renderQ(){
+  const q = state.qs[state.i], n = state.qs.length;
+  const tag = q.sys ? `Vital sign &middot; ${SYS[q.sys].tag}` : q.kind==="worry" ? "Your priorities" : "About your business";
+  const sel = state.answers[q.id];
+  const opts = q.o.map((o,j) => `<button type="button" class="opt${sel===j?" sel":""}" data-j="${j}" aria-pressed="${sel===j}"><span class="key">${j+1}</span><span>${esc(o[0])}</span></button>`).join("");
+  show(`
+    <div class="qtop">
+      <div class="progress" aria-hidden="true"><i style="width:${Math.round(state.i/n*100)}%"></i></div>
+      <div class="qmeta"><span>Question ${state.i+1} of ${n}</span><span>${PATHS[state.path].k}</span></div>
+    </div>
+    <div class="q">
+      <span class="eyebrow">${tag}</span>
+      <h2 id="qh">${esc(q.q)}</h2>
+      ${q.hint?`<p class="hint">${esc(q.hint)}</p>`:`<p class="hint">Choose one.<span class="kbd"> Or press 1 to ${q.o.length} on your keyboard.</span></p>`}
+      <div class="opts" role="group" aria-labelledby="qh">${opts}</div>
+      <div class="qnav"><button type="button" class="link" id="back">&larr; Back</button><button type="button" class="link" id="restart">Start over</button></div>
+    </div>`);
+  app.querySelectorAll(".opt").forEach(b => b.addEventListener("click", () => choose(+b.dataset.j)));
+  document.getElementById("back").addEventListener("click", back);
+  document.getElementById("restart").addEventListener("click", renderIntro);
+  const first = app.querySelector(".opt.sel") || app.querySelector(".opt"); if (first) first.focus({preventScroll:true});
+}
+
+let advancing = false;
+function choose(j){
+  if (advancing) return;
+  const q = state.qs[state.i];
+  state.answers[q.id] = j;
+  app.querySelectorAll(".opt").forEach(b => { const on = +b.dataset.j === j; b.classList.toggle("sel", on); b.setAttribute("aria-pressed", on); });
+  advancing = true;
+  setTimeout(() => { advancing = false; if (state.i < state.qs.length - 1) { state.i++; renderQ(); } else { renderContact(); } }, 180);
+}
+function back(){ if (state.i > 0) { state.i--; renderQ(); } else { renderIntro(); } }
+
+document.addEventListener("keydown", e => {
+  if (!app.querySelector(".opts") || e.target.matches("input,select,textarea")) return;
+  const k = parseInt(e.key, 10);
+  const q = state.qs[state.i];
+  if (k >= 1 && q && k <= q.o.length) { e.preventDefault(); choose(k - 1); }
+});
+
+const STATES = ["AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"];
+
+function renderContact(){
+  show(`
+    <div class="qtop"><div class="progress" aria-hidden="true"><i style="width:100%"></i></div><div class="qmeta"><span>Last step</span><span>${PATHS[state.path].k}</span></div></div>
+    <span class="eyebrow">Your vital signs are ready</span>
+    <h2 style="font-size:clamp(26px,5vw,34px);line-height:1.2;margin-top:10px">Where should we send your full results?</h2>
+    <p class="muted" style="margin-top:8px">You'll see your scores on the next screen. We'll also email you a copy you can share with your team.</p>
+    <form class="form" id="cform" novalidate>
+      <div class="hp" aria-hidden="true"><label>Website<input type="text" id="website" tabindex="-1" autocomplete="off"></label></div>
+      <div class="row2">
+        <label class="f">First name<input type="text" id="first" autocomplete="given-name" required></label>
+        <label class="f">Business name<input type="text" id="biz" autocomplete="organization" required></label>
+      </div>
+      <div class="row2">
+        <label class="f">Work email<input type="email" id="email" autocomplete="email" required></label>
+        <label class="f">State<select id="st" required><option value="">Choose your state</option>${STATES.map(s=>`<option>${s}</option>`).join("")}</select></label>
+      </div>
+      <label class="f">Phone <span class="opt-tag">(optional, if you'd like a call about your results)</span><input type="tel" id="phone" autocomplete="tel"></label>
+      <label class="check"><input type="checkbox" id="consent"><span>Email me my results and a few follow-up ideas from CareIntakeAI. I can unsubscribe anytime.</span></label>
+      <div class="err" id="cerr" role="alert"></div>
+      <button class="btn wide" type="submit" id="go">See my vital signs</button>
+      <p class="fine">We never ask for client names or health details. Your answers stay with CareIntakeAI and are never sold.</p>
+    </form>`);
+  document.getElementById("cform").addEventListener("submit", submit);
+  document.getElementById("first").focus({preventScroll:true});
+}
+
+async function submit(e){
+  e.preventDefault();
+  const v = id => document.getElementById(id).value.trim();
+  const err = document.getElementById("cerr");
+  const contact = { first:v("first").slice(0,40), business:v("biz").slice(0,80), email:v("email").slice(0,120), state:v("st"), phone:v("phone").replace(/[^\d+()\-\s.]/g,"").slice(0,25) };
+  if (!contact.first || !contact.business) return err.textContent = "Please add your first name and business name.";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(contact.email)) return err.textContent = "Please enter a valid email address.";
+  if (!contact.state) return err.textContent = "Please choose your state.";
+  if (!document.getElementById("consent").checked) return err.textContent = "Please check the box so we can send your results.";
+  err.textContent = "";
+  const btn = document.getElementById("go"); btn.disabled = true; btn.textContent = "Reading your vital signs...";
+  const result = scoreAll(state.path, state.answers);
+  const qs = state.qs;
+  const pick = id => { const q = qs.find(x => x.id === id); const a = state.answers[id]; return q && a != null ? q.o[a][0] : ""; };
+  const payload = {
+    hp: v("website"), elapsed_ms: Date.now() - state.started, src: SRC, page: location.origin + location.pathname,
+    path: state.path, path_label: PATHS[state.path].t,
+    first_name: contact.first, business: contact.business, email: contact.email, state: contact.state, phone: contact.phone, consent: true,
+    overall: result.overall, motivation: result.motivation, tier: result.tier,
+    bottleneck: result.bottleneck, bottleneck_name: SYS[result.bottleneck].nm,
+    worry: pick("m_worry"), timeline: pick("m_when"), invest: pick("m_invest"), decider: pick("m_decide"), size: pick("m_size"), pay: pick("m_pay"),
+    vitals: Object.fromEntries(Object.entries(result.vitals).map(([s,val]) => [SYS[s].nm, val])),
+    answers: Object.fromEntries(qs.map(q => [q.id, pick(q.id)]))
+  };
+  let sent = PREVIEW ? "preview" : "failed";
+  if (!PREVIEW) {
+    for (let attempt = 0; attempt < 2 && sent !== "ok"; attempt++) {
+      try {
+        const r = await fetch(CONFIG.webhookUrl, { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(payload) });
+        if (r.ok) sent = "ok";
+      } catch (_) { /* retry once */ }
+    }
+  }
+  renderResults(result, contact, sent);
+}
+
+function renderResults(r, c, sent){
+  const [stLabel, stClass] = overallStatus(r.overall);
+  const scored = PATHS[state.path].scored;
+  const rows = SYS_ORDER.map(s => {
+    if (!scored.includes(s)) return `<div class="vital off"><div class="lbl"><span class="tag">${SYS[s].tag}</span><span class="nm">${SYS[s].nm}</span></div><div class="bar" aria-hidden="true">${"<i></i>".repeat(10)}</div><div class="sc">Not scored for your stage</div></div>`;
+    const val = r.vitals[s], cls = vitalClass(val), filled = Math.round(val);
+    const label = cls==="ok"?"Stable":cls==="watch"?"Watch":"Critical";
+    return `<div class="vital ${cls}${s===r.bottleneck?" top":""}"><div class="lbl"><span class="tag">${SYS[s].tag}${s===r.bottleneck?" &middot; #1 bottleneck":""}</span><span class="nm">${SYS[s].nm}</span></div><div class="bar" role="img" aria-label="${val} out of 10">${Array.from({length:10},(_,k)=>`<i class="${k<filled?"on":""}"></i>`).join("")}</div><div class="sc"><span>${val.toFixed(1)}</span><span class="status ${cls==="ok"?"st-ok":cls==="watch"?"st-watch":"st-crit"}">${label}</span></div></div>`;
+  }).join("");
+  const b = r.bottleneck;
+  const bookUrl = CONFIG.bookingUrl + (CONFIG.bookingUrl.includes("?") ? "&" : "?") + "name=" + encodeURIComponent(c.first) + "&email=" + encodeURIComponent(c.email);
+  const note = sent==="ok" ? `A copy is on its way to ${esc(c.email)}.` : sent==="preview" ? "Preview mode: nothing was saved or emailed." : "We couldn't send your email copy just now. Book a review below and we'll walk you through your results.";
+  show(`
+    <div class="res-head">
+      <div><span class="eyebrow">${esc(c.business)} &middot; Vital signs</span><h1 style="margin-top:10px">${esc(c.first)}, here's what your ${PATHS[state.path].word} is telling you.</h1></div>
+      <div class="overall"><div class="num">${r.overall}</div><div class="of">out of 100</div><div style="margin-top:8px"><span class="status ${stClass}">${stLabel}</span></div></div>
+    </div>
+    <div class="monitor"><div class="mon-head"><span>Vital signs monitor</span><span>Score / 10</span></div>${rows}</div>
+    <div class="focus">
+      <span class="eyebrow" style="color:var(--crit)">Your #1 bottleneck</span>
+      <h2>${SYS[b].nm}</h2>
+      <p class="fg">${FIX[b].why}</p>
+      <span class="fixlbl">What fixing it looks like</span>
+      <p>${FIX[b].fix}</p>
+    </div>
+    <div class="cta">
+      <h2>Get a free 15-minute Vital Signs review</h2>
+      <p>We'll walk through your scores together and map the first 90 days to fix your #1 bottleneck. No pitch deck. Just your numbers and a plan.</p>
+      <a class="btn" href="${esc(bookUrl)}" target="_blank" rel="noopener">Book my free review</a>
+      <span class="url">${esc(CONFIG.bookingUrl)}</span>
+    </div>
+    <p class="sendnote" style="margin-top:16px">${note}</p>
+    <div class="qnav"><button type="button" class="link" id="again">Take the check again</button></div>`);
+  document.getElementById("again").addEventListener("click", renderIntro);
+}
+
+renderIntro();
+</script>
+</body></html>
