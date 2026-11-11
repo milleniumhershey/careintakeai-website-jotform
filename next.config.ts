@@ -5,6 +5,8 @@ const nextConfig: NextConfig = {
     return [
       { source: "/vital-signs", destination: "/vital-signs/index.html" },
       { source: "/vital-signs/", destination: "/vital-signs/index.html" },
+      { source: "/calculator", destination: "/calculator/index.html" },
+      { source: "/calculator/", destination: "/calculator/index.html" },
     ];
   },
 };

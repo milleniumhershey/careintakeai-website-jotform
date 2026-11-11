@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Revenue Leak Calculator for Home Care Agencies | CareIntakeAI</title>
+<meta name="description" content="See how much missed inquiries and unfilled shifts cost your home care agency each month. Takes 60 seconds. Your numbers never leave your browser.">
+<meta property="og:title" content="Revenue Leak Calculator — Home Care Edition">
+<meta property="og:description" content="See what missed inquiries and unfilled shifts cost your agency each month. 60 seconds. No email required.">
+<meta name="referrer" content="no-referrer">
+<link rel="canonical" href="https://careintakeai.com/calculator">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+  :root{
+    --bg:#08141C; --panel:#0D1F29; --line:#1D3A48; --text:#F2F6F4; --muted:#AFC1BA;
+    --accent:#2BD576; --accent-ink:#04200F; --warn:#F5B942;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.45}
+  .wrap{max-width:1040px;margin:0 auto;padding:32px 20px 56px}
+  header{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:28px}
+  .logo{font-weight:800;font-size:22px;letter-spacing:.02em;color:var(--text);text-decoration:none}
+  .logo span{color:var(--accent)}
+  .tag{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+  h1{font-size:clamp(30px,5vw,46px);line-height:1.05;margin:8px 0 12px;letter-spacing:-.01em}
+  .lede{color:var(--muted);font-size:18px;margin:0 0 28px;max-width:640px}
+  .grid{display:flex;flex-wrap:wrap;gap:20px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .inputs{flex:1 1 420px}
+  .results{flex:1 1 380px;display:flex;flex-direction:column;gap:14px}
+  h2{font-size:18px;margin:0 0 4px}
+  .hint{color:var(--muted);font-size:14px;margin:0 0 18px}
+  fieldset{border:0;padding:0;margin:0 0 18px}
+  legend{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+  .field{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+  .field label{font-size:15px}
+  .field small{display:block;color:var(--muted);font-size:13px}
+  .inbox{display:flex;align-items:center;gap:6px;flex-shrink:0}
+  .inbox span{color:var(--muted);font-size:15px;min-width:14px;text-align:center}
+  input[type=number]{width:96px;min-height:44px;padding:8px 10px;border-radius:8px;border:1px solid #2C5163;
+    background:#06111A;color:var(--text);font-size:17px;font-weight:600;text-align:right}
+  input[type=number]:focus{outline:3px solid var(--accent);outline-offset:1px}
+  .big{background:var(--accent);color:var(--accent-ink);border-radius:14px;padding:22px}
+  .big .label{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+  .big .num{font-size:clamp(40px,6vw,56px);font-weight:800;line-height:1.05;margin:4px 0}
+  .big .sub{font-size:16px;font-weight:600}
+  .row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--line);font-size:15px}
+  .row:first-of-type{border-top:0}
+  .row b{font-size:17px;white-space:nowrap}
+  .note{font-size:13px;color:var(--muted)}
+  .cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:14px 22px;
+    border-radius:12px;background:var(--text);color:var(--bg);font-weight:800;font-size:17px;text-decoration:none}
+  .cta:hover{background:#fff}
+  .cta:focus{outline:3px solid var(--accent);outline-offset:2px}
+  .privacy{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted);margin-top:28px}
+  .privacy svg{flex-shrink:0;margin-top:2px}
+  footer{margin-top:28px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px}
+  footer a{color:var(--accent)}
+  .error{color:var(--warn);font-size:13px;min-height:1em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="logo" href="/" aria-label="CareIntakeAI home">CareIntake<span>AI</span></a>
+    <div class="tag">Home Care Edition</div>
+  </header>
+
+  <main>
+    <h1>What are revenue leaks costing your agency?</h1>
+    <p class="lede">Put in your own numbers. In 60 seconds you'll see what missed inquiries and unfilled shifts cost you each month and each year.</p>
+
+    <div class="grid">
+      <section class="card inputs" aria-labelledby="in-h">
+        <h2 id="in-h">Your numbers</h2>
+        <p class="hint">The sample numbers are only a starting point. Change them to match your agency.</p>
+
+        <fieldset>
+          <legend>Leak 1 — Missed inquiries</legend>
+          <div class="field">
+            <label for="inq">New client inquiries per month<small>Calls, forms, referrals</small></label>
+            <div class="inbox"><input id="inq" type="number" min="0" step="1" value="20" inputmode="numeric"></div>
+          </div>
+          <div class="field">
+            <label for="miss">Inquiries missed or answered too late<small>Voicemail, after hours, slow call-back</small></label>
+            <div class="inbox"><input id="miss" type="number" min="0" max="100" step="1" value="25" inputmode="decimal"><span>%</span></div>
+          </div>
+          <div class="field">
+            <label for="close">How many answered inquiries become clients<small>Your close rate</small></label>
+            <div class="inbox"><input id="close" type="number" min="0" max="100" step="1" value="30" inputmode="decimal"><span>%</span></div>
+          </div>
+          <div class="field">
+            <label for="hrs">Average care hours per client, per week</label>
+            <div class="inbox"><input id="hrs" type="number" min="0" step="1" value="20" inputmode="decimal"></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Leak 2 — Unfilled shifts</legend>
+          <div class="field">
+            <label for="unf">Shift hours you couldn't fill, per week<small>Call-outs, no-shows, no caregiver available</small></label>
+            <div class="inbox"><input id="unf" type="number" min="0" step="1" value="15" inputmode="decimal"></div>
+          </div>
+        </fieldset>
+
+        <fieldset style="margin-bottom:0">
+          <legend>Both leaks</legend>
+          <div class="field">
+            <label for="rate">Your average bill rate<small>Per care hour</small></label>
+            <div class="inbox"><span>$</span><input id="rate" type="number" min="0" step="0.5" value="32" inputmode="decimal"></div>
+          </div>
+        </fieldset>
+        <p class="error" id="err" role="alert"></p>
+      </section>
+
+      <section class="results" aria-labelledby="out-h" aria-live="polite">
+        <h2 id="out-h" style="position:absolute;left:-9999px">Your results</h2>
+        <div class="big">
+          <div class="label">Revenue leaking each month</div>
+          <div class="num" id="monthly">$0</div>
+          <div class="sub"><span id="annual">$0</span> per year</div>
+        </div>
+
+        <div class="card">
+          <div class="row"><span>Clients lost from missed inquiries</span><b id="lostClients">0 / month</b></div>
+          <div class="row"><span>Revenue from those clients</span><b id="inqMonthly">$0 / month</b></div>
+          <div class="row"><span>Revenue from unfilled shifts</span><b id="shiftMonthly">$0 / month</b></div>
+          <div class="row"><span>Total leak per week</span><b id="weekly">$0</b></div>
+          <p class="note" style="margin:12px 0 0">This is a low estimate. It counts only the first month of each lost client. Most clients stay for many months, so the real cost is higher.</p>
+        </div>
+
+        <div class="card">
+          <h2>Want to plug these leaks?</h2>
+          <p class="hint" style="margin-bottom:16px">Book a free 15-minute Revenue Leak Review. We'll look at where your agency loses the most and what to fix first.</p>
+          <a class="cta" href="/book">Book my 15-min review
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </section>
+    </div>
+
+    <div class="privacy">
+      <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2BD576" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      <span>Your numbers stay in your browser. Nothing is saved, tracked, or sent anywhere.</span>
+    </div>
+  </main>
+
+  <footer>
+    Estimates only, based on the numbers you enter. Not financial advice. &copy; CareIntakeAI &middot;
+    <a href="mailto:gguillet@careintakeai.com">gguillet@careintakeai.com</a>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var WEEKS_PER_MONTH = 52 / 12; // 4.333...
+  var ids = ['inq','miss','close','hrs','unf','rate'];
+  var el = {}; ids.forEach(function(i){ el[i] = document.getElementById(i); });
+  var money = new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0});
+  function val(id, max){
+    var n = parseFloat(el[id].value);
+    if (!isFinite(n) || n < 0) n = 0;
+    if (max !== undefined && n > max) n = max;
+    return n;
+  }
+  function calc(){
+    var inq = val('inq'), miss = val('miss',100)/100, close = val('close',100)/100,
+        hrs = val('hrs'), unf = val('unf'), rate = val('rate');
+    var bad = ['miss','close'].some(function(id){ return parseFloat(el[id].value) > 100; });
+    document.getElementById('err').textContent = bad ? 'Percentages can’t be more than 100.' : '';
+
+    var lostClients = inq * miss * close;                 // per month
+    var clientWeekly = hrs * rate;                        // one client, per week
+    var inqWeekly = lostClients * clientWeekly;           // lost clients' first-month value, as weekly
+    var shiftWeekly = unf * rate;                         // unfilled hours, per week
+    var weekly = inqWeekly + shiftWeekly;
+    var monthly = weekly * WEEKS_PER_MONTH;
+    var annual = monthly * 12;                            // = weekly * 52
+
+    document.getElementById('lostClients').textContent = (Math.round(lostClients*10)/10) + ' / month';
+    document.getElementById('inqMonthly').textContent = money.format(inqWeekly * WEEKS_PER_MONTH) + ' / month';
+    document.getElementById('shiftMonthly').textContent = money.format(shiftWeekly * WEEKS_PER_MONTH) + ' / month';
+    document.getElementById('weekly').textContent = money.format(weekly);
+    document.getElementById('monthly').textContent = money.format(monthly);
+    document.getElementById('annual').textContent = money.format(annual);
+  }
+  ids.forEach(function(i){ el[i].addEventListener('input', calc); });
+  calc();
+})();
+</script>
+</body>
+</html>
