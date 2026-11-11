@@ -72,6 +72,14 @@ test("home page preserves brand and loads the Jotform Lea concierge", async () =
   assert.doesNotMatch(shell, /liveavatar|heygen/i);
 });
 
+test("revenue leak calculator is served and linked", async () => {
+  const html = await render("/calculator");
+  assert.match(html, /Revenue Leak Calculator/i);
+  assert.match(html, /href="\/book"/);
+  const resources = await render("/resources");
+  assert.match(resources, /href="\/calculator"/);
+});
+
 test("services and booking content remain available", async () => {
   const services = await render("/services");
   for (const label of ["Private-Pay Home Care", "Memory Care / Dementia Care", "Residential Care Homes", "Group Homes", "Adult Day Care"]) {
